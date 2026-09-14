@@ -11,109 +11,99 @@ permissions:
 
 jobs:
   build:
-    name: Build OUR OS ISO
+    name: Build OUR OS
     runs-on: ubuntu-latest
-
-    container:
-      image: debian:trixie
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install build tools
+      - name: Build Debian ISO
         run: |
-          apt-get update
+          docker run --privileged --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            debian:trixie \
+            bash -c '
+              set -e
 
-          DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            live-build \
-            debootstrap \
-            debian-archive-keyring \
-            xorriso \
-            squashfs-tools \
-            grub-pc-bin \
-            grub-efi-amd64-bin \
-            mtools \
-            dosfstools \
-            ca-certificates
+              echo "========================================"
+              echo "Installing build tools"
+              echo "========================================"
 
-      - name: Show build environment
-        run: |
-          echo "=== OS ==="
-          cat /etc/os-release
+              apt-get update
 
-          echo "=== live-build ==="
-          lb --version
+              DEBIAN_FRONTEND=noninteractive apt-get install -y \
+                live-build \
+                debootstrap \
+                debian-archive-keyring \
+                xorriso \
+                squashfs-tools \
+                grub-pc-bin \
+                grub-efi-amd64-bin \
+                mtools \
+                dosfstools \
+                ca-certificates
 
-          echo "=== debootstrap ==="
-          debootstrap --version
+              echo "========================================"
+              echo "Configuring OUR OS"
+              echo "========================================"
 
-      - name: Configure OUR OS
-        run: |
-          lb config \
-            --distribution trixie \
-            --architectures amd64 \
-            --binary-images iso-hybrid \
-            --mirror-bootstrap https://deb.debian.org/debian \
-            --mirror-binary https://deb.debian.org/debian \
-            --mirror-chroot https://deb.debian.org/debian \
-            --archive-areas "main contrib non-free non-free-firmware" \
-            --apt-recommends true \
-            --firmware-binary true \
-            --firmware-chroot true \
-            --iso-application "OUR OS" \
-            --iso-publisher "OUR OS Project" \
-            --iso-volume "OUR-OS"
+              lb config \
+                --distribution trixie \
+                --architectures amd64 \
+                --binary-images iso-hybrid \
+                --mirror-bootstrap https://deb.debian.org/debian \
+                --mirror-binary https://deb.debian.org/debian \
+                --mirror-chroot https://deb.debian.org/debian \
+                --archive-areas "main contrib non-free non-free-firmware" \
+                --apt-recommends true \
+                --firmware-binary true \
+                --firmware-chroot true \
+                --iso-application "OUR OS" \
+                --iso-publisher "OUR OS Project" \
+                --iso-volume "OUR-OS"
 
-      - name: Show generated configuration
-        run: |
-          echo "=== config directory ==="
-          find config -maxdepth 3 -type f -print 2>/dev/null || true
+              echo "========================================"
+              echo "Building ISO"
+              echo "========================================"
 
-          echo "=== auto/config ==="
-          cat config/auto/config 2>/dev/null || true
+              lb build 2>&1 | tee build.log
 
-      - name: Build ISO
-        run: |
-          set -o pipefail
-          lb build 2>&1 | tee build.log
+              echo "========================================"
+              echo "Searching for ISO"
+              echo "========================================"
 
-      - name: Inspect build
-        if: always()
+              find . -type f \
+                \( -name "*.iso" -o -name "*.hybrid.iso" \) \
+                -print
+            '
+
+      - name: Locate ISO
         run: |
           echo "========================================"
-          echo "BUILD RESULT"
+          echo "Searching workspace for ISO"
           echo "========================================"
 
-          echo "=== Root ==="
-          ls -lah
-
-          echo "=== ISO files ==="
           find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
             -print
 
-          echo "=== binary/ ==="
-          ls -lah binary/ 2>/dev/null || true
-
-          echo "=== Last 200 log lines ==="
-          tail -n 200 build.log 2>/dev/null || true
-
-      - name: Prepare ISO artifact
-        run: |
           ISO=$(find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
             -print -quit)
 
           if [ -z "$ISO" ]; then
             echo "ERROR: No ISO was created."
+            echo ""
+            echo "Build log:"
+            tail -n 200 build.log 2>/dev/null || true
             exit 1
           fi
 
-          echo "ISO found at: $ISO"
+          echo "Found: $ISO"
 
-          cp "$ISO" \
-            "our-os-$(cat VERSION)-amd64.iso"
+          cp "$ISO" "our-os-$(cat VERSION)-amd64.iso"
 
           ls -lh "our-os-$(cat VERSION)-amd64.iso"
 
