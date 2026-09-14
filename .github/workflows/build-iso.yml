@@ -16,14 +16,25 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Install live-build
+      - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y live-build debootstrap
+          sudo apt-get install -y \
+            live-build \
+            debootstrap \
+            xorriso \
+            squashfs-tools \
+            grub-pc-bin \
+            grub-efi-amd64-bin \
+            grub-efi-amd64-signed \
+            shim-signed \
+            mtools \
+            dosfstools \
+            syslinux-utils
 
-      - name: Configure live-build
+      - name: Prepare build configuration
         run: |
           sudo lb config \
             --distribution trixie \
@@ -32,18 +43,35 @@ jobs:
             --archive-areas "main contrib non-free non-free-firmware" \
             --apt-recommends true \
             --firmware-binary true \
-            --firmware-chroot true
+            --firmware-chroot true \
+            --iso-application "OUR OS" \
+            --iso-publisher "OUR OS Project" \
+            --iso-volume "OUR-OS"
 
       - name: Build ISO
         run: |
-          sudo lb build
+          sudo lb build 2>&1 | tee build.log
+
+      - name: Show build files
+        if: always()
+        run: |
+          echo "=== Root directory ==="
+          ls -lah
+          echo "=== ISO files ==="
+          find . -maxdepth 2 -type f \
+            \( -name "*.iso" -o -name "*.hybrid.iso" \) \
+            -print
 
       - name: Rename ISO
         run: |
-          ISO=$(find . -maxdepth 1 -type f -name "*.iso" | head -n 1)
+          ISO=$(find . -maxdepth 1 -type f \
+            \( -name "*.iso" -o -name "*.hybrid.iso" \) \
+            | head -n 1)
 
           if [ -z "$ISO" ]; then
             echo "ERROR: ISO was not generated."
+            echo "=== Last 100 lines of build log ==="
+            tail -n 100 build.log
             exit 1
           fi
 
