@@ -85,19 +85,12 @@ jobs:
           echo "Searching workspace for ISO"
           echo "========================================"
 
-          find . -type f \
-            \( -name "*.iso" -o -name "*.hybrid.iso" \) \
-            -print
-
           ISO=$(find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
-            -print -quit)
+            -print -quit 2>/dev/null)
 
           if [ -z "$ISO" ]; then
             echo "ERROR: No ISO was created."
-            echo ""
-            echo "Build log:"
-            tail -n 200 build.log 2>/dev/null || true
             exit 1
           fi
 
