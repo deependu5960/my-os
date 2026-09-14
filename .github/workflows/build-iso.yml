@@ -24,6 +24,7 @@ jobs:
           sudo apt-get install -y \
             live-build \
             debootstrap \
+            debian-archive-keyring \
             xorriso \
             squashfs-tools \
             grub-pc-bin \
@@ -34,12 +35,14 @@ jobs:
             dosfstools \
             syslinux-utils
 
-      - name: Prepare build configuration
+      - name: Configure Debian live system
         run: |
           sudo lb config \
             --distribution trixie \
             --architectures amd64 \
             --binary-images iso-hybrid \
+            --mirror-bootstrap http://deb.debian.org/debian \
+            --mirror-binary http://deb.debian.org/debian \
             --archive-areas "main contrib non-free non-free-firmware" \
             --apt-recommends true \
             --firmware-binary true \
@@ -52,15 +55,16 @@ jobs:
         run: |
           sudo lb build 2>&1 | tee build.log
 
-      - name: Show build files
+      - name: Show build result
         if: always()
         run: |
-          echo "=== Root directory ==="
-          ls -lah
           echo "=== ISO files ==="
           find . -maxdepth 2 -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
             -print
+
+          echo "=== Build log tail ==="
+          tail -n 100 build.log
 
       - name: Rename ISO
         run: |
@@ -70,8 +74,6 @@ jobs:
 
           if [ -z "$ISO" ]; then
             echo "ERROR: ISO was not generated."
-            echo "=== Last 100 lines of build log ==="
-            tail -n 100 build.log
             exit 1
           fi
 
