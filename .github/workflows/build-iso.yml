@@ -11,17 +11,21 @@ permissions:
 
 jobs:
   build:
-    name: Build ISO
+    name: Build OUR OS ISO
     runs-on: ubuntu-latest
+
+    container:
+      image: debian:trixie
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
-      - name: Install build dependencies
+      - name: Install build tools
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          apt-get update
+
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
             live-build \
             debootstrap \
             debian-archive-keyring \
@@ -29,20 +33,30 @@ jobs:
             squashfs-tools \
             grub-pc-bin \
             grub-efi-amd64-bin \
-            grub-efi-amd64-signed \
-            shim-signed \
             mtools \
             dosfstools \
-            syslinux-utils
+            ca-certificates
 
-      - name: Configure Debian live system
+      - name: Show build environment
         run: |
-          sudo lb config \
+          echo "=== OS ==="
+          cat /etc/os-release
+
+          echo "=== live-build ==="
+          lb --version
+
+          echo "=== debootstrap ==="
+          debootstrap --version
+
+      - name: Configure OUR OS
+        run: |
+          lb config \
             --distribution trixie \
             --architectures amd64 \
             --binary-images iso-hybrid \
             --mirror-bootstrap https://deb.debian.org/debian \
             --mirror-binary https://deb.debian.org/debian \
+            --mirror-chroot https://deb.debian.org/debian \
             --archive-areas "main contrib non-free non-free-firmware" \
             --apt-recommends true \
             --firmware-binary true \
@@ -51,61 +65,56 @@ jobs:
             --iso-publisher "OUR OS Project" \
             --iso-volume "OUR-OS"
 
+      - name: Show generated configuration
+        run: |
+          echo "=== config directory ==="
+          find config -maxdepth 3 -type f -print 2>/dev/null || true
+
+          echo "=== auto/config ==="
+          cat config/auto/config 2>/dev/null || true
+
       - name: Build ISO
         run: |
-          sudo lb build 2>&1 | tee build.log
+          set -o pipefail
+          lb build 2>&1 | tee build.log
 
-      - name: Inspect build output
+      - name: Inspect build
         if: always()
         run: |
           echo "========================================"
-          echo "CURRENT DIRECTORY"
+          echo "BUILD RESULT"
           echo "========================================"
-          pwd
 
-          echo "========================================"
-          echo "ROOT FILES"
-          echo "========================================"
+          echo "=== Root ==="
           ls -lah
 
-          echo "========================================"
-          echo "ALL ISO FILES"
-          echo "========================================"
-          sudo find . -type f \
+          echo "=== ISO files ==="
+          find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
             -print
 
-          echo "========================================"
-          echo "BINARY DIRECTORY"
-          echo "========================================"
-          sudo ls -lah binary/ 2>/dev/null || true
+          echo "=== binary/ ==="
+          ls -lah binary/ 2>/dev/null || true
 
-          echo "========================================"
-          echo "BUILD LOG - LAST 150 LINES"
-          echo "========================================"
-          tail -n 150 build.log
+          echo "=== Last 200 log lines ==="
+          tail -n 200 build.log 2>/dev/null || true
 
-      - name: Locate and rename ISO
+      - name: Prepare ISO artifact
         run: |
-          ISO=$(sudo find . -type f \
+          ISO=$(find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
             -print -quit)
 
           if [ -z "$ISO" ]; then
-            echo "ERROR: live-build did not create an ISO."
+            echo "ERROR: No ISO was created."
             exit 1
           fi
 
-          echo "Found ISO:"
-          echo "$ISO"
+          echo "ISO found at: $ISO"
 
-          sudo cp "$ISO" \
+          cp "$ISO" \
             "our-os-$(cat VERSION)-amd64.iso"
 
-          sudo chown "$USER:$USER" \
-            "our-os-$(cat VERSION)-amd64.iso"
-
-          echo "Final ISO:"
           ls -lh "our-os-$(cat VERSION)-amd64.iso"
 
       - name: Upload ISO
