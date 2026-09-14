@@ -46,6 +46,12 @@ jobs:
                 ca-certificates
 
               echo "========================================"
+              echo "Cleaning previous build"
+              echo "========================================"
+
+              lb clean --purge || true
+
+              echo "========================================"
               echo "Configuring OUR OS"
               echo "========================================"
 
@@ -71,12 +77,15 @@ jobs:
               lb build 2>&1 | tee build.log
 
               echo "========================================"
-              echo "Searching for ISO"
+              echo "Checking ISO"
               echo "========================================"
 
-              find . -type f \
-                \( -name "*.iso" -o -name "*.hybrid.iso" \) \
-                -print
+              if [ ! -f "./live-image-amd64.hybrid.iso" ]; then
+                echo "ERROR: ISO was not generated."
+                exit 1
+              fi
+
+              ls -lh ./live-image-amd64.hybrid.iso
             '
 
       - name: Locate ISO
