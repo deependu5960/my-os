@@ -41,8 +41,8 @@ jobs:
             --distribution trixie \
             --architectures amd64 \
             --binary-images iso-hybrid \
-            --mirror-bootstrap http://deb.debian.org/debian \
-            --mirror-binary http://deb.debian.org/debian \
+            --mirror-bootstrap https://deb.debian.org/debian \
+            --mirror-binary https://deb.debian.org/debian \
             --archive-areas "main contrib non-free non-free-firmware" \
             --apt-recommends true \
             --firmware-binary true \
@@ -55,29 +55,58 @@ jobs:
         run: |
           sudo lb build 2>&1 | tee build.log
 
-      - name: Show build result
+      - name: Inspect build output
         if: always()
         run: |
-          echo "=== ISO files ==="
-          find . -maxdepth 2 -type f \
+          echo "========================================"
+          echo "CURRENT DIRECTORY"
+          echo "========================================"
+          pwd
+
+          echo "========================================"
+          echo "ROOT FILES"
+          echo "========================================"
+          ls -lah
+
+          echo "========================================"
+          echo "ALL ISO FILES"
+          echo "========================================"
+          sudo find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
             -print
 
-          echo "=== Build log tail ==="
-          tail -n 100 build.log
+          echo "========================================"
+          echo "BINARY DIRECTORY"
+          echo "========================================"
+          sudo ls -lah binary/ 2>/dev/null || true
 
-      - name: Rename ISO
+          echo "========================================"
+          echo "BUILD LOG - LAST 150 LINES"
+          echo "========================================"
+          tail -n 150 build.log
+
+      - name: Locate and rename ISO
         run: |
-          ISO=$(find . -maxdepth 1 -type f \
+          ISO=$(sudo find . -type f \
             \( -name "*.iso" -o -name "*.hybrid.iso" \) \
-            | head -n 1)
+            -print -quit)
 
           if [ -z "$ISO" ]; then
-            echo "ERROR: ISO was not generated."
+            echo "ERROR: live-build did not create an ISO."
             exit 1
           fi
 
-          mv "$ISO" "our-os-$(cat VERSION)-amd64.iso"
+          echo "Found ISO:"
+          echo "$ISO"
+
+          sudo cp "$ISO" \
+            "our-os-$(cat VERSION)-amd64.iso"
+
+          sudo chown "$USER:$USER" \
+            "our-os-$(cat VERSION)-amd64.iso"
+
+          echo "Final ISO:"
+          ls -lh "our-os-$(cat VERSION)-amd64.iso"
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
