@@ -1,0 +1,58 @@
+name: Build OUR OS ISO
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ISO
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install live-build
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build debootstrap
+
+      - name: Configure live-build
+        run: |
+          sudo lb config \
+            --distribution trixie \
+            --architectures amd64 \
+            --binary-images iso-hybrid \
+            --archive-areas "main contrib non-free non-free-firmware" \
+            --apt-recommends true \
+            --firmware-binary true \
+            --firmware-chroot true
+
+      - name: Build ISO
+        run: |
+          sudo lb build
+
+      - name: Rename ISO
+        run: |
+          ISO=$(find . -maxdepth 1 -type f -name "*.iso" | head -n 1)
+
+          if [ -z "$ISO" ]; then
+            echo "ERROR: ISO was not generated."
+            exit 1
+          fi
+
+          mv "$ISO" "our-os-$(cat VERSION)-amd64.iso"
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: our-os-iso
+          path: "*.iso"
+          if-no-files-found: error
+          retention-days: 7

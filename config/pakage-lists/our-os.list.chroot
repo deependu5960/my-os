@@ -1,0 +1,12 @@
+linux-image-amd64
+live-boot
+live-config
+systemd
+sudo
+network-manager
+curl
+wget
+git
+nano
+vim
+htop
