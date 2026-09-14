@@ -82,21 +82,20 @@ jobs:
       - name: Locate ISO
         run: |
           echo "========================================"
-          echo "Searching workspace for ISO"
+          echo "Checking generated ISO"
           echo "========================================"
 
-          ISO=$(find . -type f \
-            \( -name "*.iso" -o -name "*.hybrid.iso" \) \
-            -print -quit 2>/dev/null)
+          ISO="./live-image-amd64.hybrid.iso"
 
-          if [ -z "$ISO" ]; then
-            echo "ERROR: No ISO was created."
+          if [ ! -f "$ISO" ]; then
+            echo "ERROR: ISO was not created."
             exit 1
           fi
 
           echo "Found: $ISO"
 
-          cp "$ISO" "our-os-$(cat VERSION)-amd64.iso"
+          sudo cp "$ISO" "our-os-$(cat VERSION)-amd64.iso"
+          sudo chmod 644 "our-os-$(cat VERSION)-amd64.iso"
 
           ls -lh "our-os-$(cat VERSION)-amd64.iso"
 
