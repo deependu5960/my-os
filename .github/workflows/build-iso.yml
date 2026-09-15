@@ -28,7 +28,7 @@ jobs:
               set -e
 
               echo "========================================"
-              echo "Installing build tools"
+              echo "INSTALLING BUILD TOOLS"
               echo "========================================"
 
               apt-get update
@@ -46,13 +46,41 @@ jobs:
                 ca-certificates
 
               echo "========================================"
-              echo "Cleaning previous build"
+              echo "CLEANING PREVIOUS BUILD"
               echo "========================================"
 
               lb clean --purge || true
 
               echo "========================================"
-              echo "Configuring OUR OS"
+              echo "VERIFYING PACKAGE LIST"
+              echo "========================================"
+
+              echo "--- PACKAGE LIST CONTENT ---"
+
+              if [ ! -f "config/package-lists/our-os.list.chroot" ]; then
+                echo "ERROR: Package list file not found!"
+                exit 1
+              fi
+
+              cat config/package-lists/our-os.list.chroot
+
+              echo "========================================"
+              echo "PACKAGE LIST FILES"
+              echo "========================================"
+
+              ls -la config/package-lists/
+
+              echo "========================================"
+              echo "VERIFYING GUI PACKAGES"
+              echo "========================================"
+
+              grep -E "^(xfce4|xfce4-goodies|lightdm|network-manager-gnome|xorg)$" \
+                config/package-lists/our-os.list.chroot
+
+              echo "GUI package list verification passed."
+
+              echo "========================================"
+              echo "CONFIGURING OUR OS"
               echo "========================================"
 
               lb config \
@@ -71,13 +99,13 @@ jobs:
                 --iso-volume "OUR-OS"
 
               echo "========================================"
-              echo "Building ISO"
+              echo "BUILDING ISO"
               echo "========================================"
 
               lb build 2>&1 | tee build.log
 
               echo "========================================"
-              echo "Checking ISO"
+              echo "CHECKING GENERATED ISO"
               echo "========================================"
 
               if [ ! -f "./live-image-amd64.hybrid.iso" ]; then
@@ -85,13 +113,17 @@ jobs:
                 exit 1
               fi
 
-              ls -lh ./live-image-amd64.hybrid.iso
+              ls -lh "./live-image-amd64.hybrid.iso"
+
+              echo "========================================"
+              echo "ISO BUILD SUCCESSFUL"
+              echo "========================================"
             '
 
       - name: Locate ISO
         run: |
           echo "========================================"
-          echo "Checking generated ISO"
+          echo "CHECKING GENERATED ISO"
           echo "========================================"
 
           ISO="./live-image-amd64.hybrid.iso"
