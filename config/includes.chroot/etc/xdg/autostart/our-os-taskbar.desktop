@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=OUR OS Taskbar
+Comment=OUR OS Desktop Shell
+Exec=/usr/bin/python3 /opt/our-os/taskbar.py
+Terminal=false
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
