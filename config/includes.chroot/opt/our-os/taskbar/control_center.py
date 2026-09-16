@@ -124,7 +124,7 @@ class TileButton(Gtk.Button):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         box.set_halign(Gtk.Align.CENTER)
         self.icon = Gtk.Image.new_from_file(
-            f"/usr/local/our-os/taskbar/assets/{icon_file}"
+            f"/opt/our-os/taskbar/assets/{icon_file}"
         )
         self.icon.set_pixel_size(22)
         self.state_label = Gtk.Label(label="—")
@@ -150,7 +150,7 @@ class SliderTile(Gtk.Box):
         self.get_style_context().add_class("cc-slider")
         head = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         img = Gtk.Image.new_from_file(
-            f"/usr/local/our-os/taskbar/assets/{icon_file}"
+            f"/opt/our-os/taskbar/assets/{icon_file}"
         )
         img.set_pixel_size(16)
         lbl = Gtk.Label(label=label)

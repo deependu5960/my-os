@@ -14,7 +14,7 @@ from system_state import SystemState
 def load_css():
     screen = Gdk.Screen.get_default()
     provider = Gtk.CssProvider()
-    provider.load_from_path("/usr/local/our-os/taskbar/style.css")
+    provider.load_from_path("/opt/our-os/taskbar/style.css")
     Gtk.StyleContext.add_provider_for_screen(
         screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
     )
