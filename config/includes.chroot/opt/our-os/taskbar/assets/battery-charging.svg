@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Dark Background Glow -->
+    <radialGradient id="battBgGlow" cx="50%" cy="55%" r="65%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Neon Battery Gradient -->
+    <linearGradient id="neonBatt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Bolt Accent Gradient -->
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Outer Ring Gradient Accent -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Multi-Layer Neon Glow Filter -->
+    <filter id="battGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Core Dot Pulse Gradient -->
+    <radialGradient id="centerDotGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#7000ff"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="90" fill="url(#battBgGlow)"/>
+
+  <!-- Concentric Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#ringGrad)" stroke-opacity="0.25" stroke-dasharray="10 18" stroke-width="2"/>
+  <circle cx="250" cy="250" r="160" fill="none" stroke="#00f0ff" stroke-opacity="0.08" stroke-width="1.5"/>
+
+  <!-- Active Neon Battery Shell & Bolt -->
+  <g filter="url(#battGlow)">
+    <!-- Battery Outer Shell -->
+    <rect x="110" y="165" width="250" height="170" rx="36" 
+          fill="none" 
+          stroke="url(#neonBatt)" 
+          stroke-width="22" 
+          stroke-linejoin="round"/>
+
+    <!-- Positive Terminal Tip -->
+    <path d="M 382 215 C 396 215 404 225 404 235 L 404 265 C 404 275 396 285 382 285" 
+          fill="none" 
+          stroke="url(#neonBatt)" 
+          stroke-width="18" 
+          stroke-linecap="round"/>
+
+    <!-- Charging Lightning Bolt -->
+    <polygon points="245,190 190,265 240,265 225,310 285,235 240,235" 
+             fill="url(#boltGrad)" 
+             stroke="url(#boltGrad)" 
+             stroke-width="6" 
+             stroke-linejoin="round"/>
+
+    <!-- Hotspot Accent Dots -->
+    <circle cx="150" cy="250" r="6" fill="url(#centerDotGrad)"/>
+    <circle cx="150" cy="250" r="2.5" fill="#ffffff"/>
+  </g>
+
+  <!-- Specular Core Highlights for Glass/Neon Tube Finish -->
+  <g opacity="0.65" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="110" y="165" width="250" height="170" rx="36" 
+          fill="none" 
+          stroke-width="4"/>
+    <polygon points="245,195 198,260 242,260 228,305 277,240 240,240" 
+             fill="none" 
+             stroke-width="3"/>
+  </g>
+</svg>

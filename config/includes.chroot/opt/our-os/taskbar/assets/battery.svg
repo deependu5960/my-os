@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Dark Background Glow -->
+    <radialGradient id="battNormBgGlow" cx="50%" cy="55%" r="65%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Neon Battery Gradient -->
+    <linearGradient id="neonBattNorm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Outer Ring Gradient Accent -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Multi-Layer Neon Glow Filter -->
+    <filter id="battNormGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="90" fill="url(#battNormBgGlow)"/>
+
+  <!-- Concentric Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#ringGrad)" stroke-opacity="0.25" stroke-dasharray="10 18" stroke-width="2"/>
+  <circle cx="250" cy="250" r="160" fill="none" stroke="#00f0ff" stroke-opacity="0.08" stroke-width="1.5"/>
+
+  <!-- Glowing Battery Shell & Level Bars -->
+  <g filter="url(#battNormGlow)">
+    <!-- Battery Outer Shell -->
+    <rect x="105" y="165" width="255" height="170" rx="36" 
+          fill="none" 
+          stroke="url(#neonBattNorm)" 
+          stroke-width="22" 
+          stroke-linejoin="round"/>
+
+    <!-- Positive Terminal Tip -->
+    <path d="M 383 215 C 397 215 405 225 405 235 L 405 265 C 405 275 397 285 383 285" 
+          fill="none" 
+          stroke="url(#neonBattNorm)" 
+          stroke-width="18" 
+          stroke-linecap="round"/>
+
+    <!-- Charge Indicator Blocks -->
+    <rect x="145" y="200" width="45" height="100" rx="12" fill="url(#neonBattNorm)"/>
+    <rect x="210" y="200" width="45" height="100" rx="12" fill="url(#neonBattNorm)"/>
+    <rect x="275" y="200" width="45" height="100" rx="12" fill="url(#neonBattNorm)"/>
+  </g>
+
+  <!-- Specular Core Highlights for Glass/Neon Tube Finish -->
+  <g opacity="0.65" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="105" y="165" width="255" height="170" rx="36" 
+          fill="none" 
+          stroke-width="4"/>
+    <!-- Inner Core Pill Highlights -->
+    <line x1="167" y1="215" x2="167" y2="285" stroke-width="4"/>
+    <line x1="232" y1="215" x2="232" y2="285" stroke-width="4"/>
+    <line x1="297" y1="215" x2="297" y2="285" stroke-width="4"/>
+  </g>
+</svg>

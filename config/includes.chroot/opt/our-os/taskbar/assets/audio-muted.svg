@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="audioMuteBgGlow" cx="50%" cy="55%" r="65%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Signal Gradient (Dimmed/Offline) -->
+    <linearGradient id="neonAudioDim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#7000ff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ff007b" stop-opacity="0.3"/>
+    </linearGradient>
+
+    <!-- Vibrant Strike Gradient -->
+    <linearGradient id="strikeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0055"/>
+      <stop offset="50%" stop-color="#ff3366"/>
+      <stop offset="100%" stop-color="#ff9900"/>
+    </linearGradient>
+
+    <!-- Strike Cutout Mask -->
+    <mask id="strikeCutout">
+      <rect width="500" height="500" fill="#ffffff" />
+      <line x1="110" y1="390" x2="390" y2="110" stroke="#000000" stroke-width="46" stroke-linecap="round" />
+    </mask>
+
+    <!-- Dimmed Base Glow -->
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- High-Intensity Strike Glow -->
+    <filter id="strikeGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur1"/>
+      <feGaussianBlur stdDeviation="22" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="90" fill="url(#audioMuteBgGlow)"/>
+
+  <!-- Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#neonAudioDim)" stroke-opacity="0.2" stroke-dasharray="10 18" stroke-width="2"/>
+  <circle cx="250" cy="250" r="160" fill="none" stroke="#00f0ff" stroke-opacity="0.05" stroke-width="1.5"/>
+
+  <!-- Dimmed Speaker & Soundwaves (Masked) -->
+  <g mask="url(#strikeCutout)" filter="url(#softGlow)" stroke-linecap="round">
+    <!-- Speaker Body -->
+    <path d="M 125 200 L 165 200 L 225 150 L 225 350 L 165 300 L 125 300 Z" 
+          fill="url(#neonAudioDim)" 
+          stroke="url(#neonAudioDim)" 
+          stroke-width="16" 
+          stroke-linejoin="round"/>
+
+    <!-- Inner Sound Arc -->
+    <path d="M 280 195 A 75 75 0 0 1 280 305" 
+          fill="none" 
+          stroke="url(#neonAudioDim)" 
+          stroke-width="22"/>
+
+    <!-- Outer Sound Arc -->
+    <path d="M 335 150 A 145 145 0 0 1 335 350" 
+          fill="none" 
+          stroke="url(#neonAudioDim)" 
+          stroke-width="22"/>
+
+    <!-- Emitter Dot -->
+    <circle cx="160" cy="250" r="8" fill="url(#neonAudioDim)"/>
+    <circle cx="160" cy="250" r="3" fill="#ffffff" opacity="0.3"/>
+  </g>
+
+  <!-- Neon "Muted" Diagonal Strike -->
+  <g filter="url(#strikeGlow)">
+    <line x1="110" y1="390" x2="390" y2="110" 
+          stroke="url(#strikeGrad)" 
+          stroke-width="22" 
+          stroke-linecap="round"/>
+
+    <!-- White Core Filament -->
+    <line x1="110" y1="390" x2="390" y2="110" 
+          stroke="#ffffff" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          opacity="0.9"/>
+  </g>
+</svg>

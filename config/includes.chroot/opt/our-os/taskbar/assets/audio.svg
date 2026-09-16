@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Dark Background Glow -->
+    <radialGradient id="audioBgGlow" cx="50%" cy="55%" r="65%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Neon Audio Gradient -->
+    <linearGradient id="neonAudio" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Outer Ring Gradient Accent -->
+    <linearGradient id="audioRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Multi-Layer Neon Glow Filter -->
+    <filter id="audioGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Hotspot Pulse Gradient -->
+    <radialGradient id="audioPulseDot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#7000ff"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="90" fill="url(#audioBgGlow)"/>
+
+  <!-- Concentric Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#audioRingGrad)" stroke-opacity="0.25" stroke-dasharray="10 18" stroke-width="2"/>
+  <circle cx="250" cy="250" r="160" fill="none" stroke="#00f0ff" stroke-opacity="0.08" stroke-width="1.5"/>
+
+  <!-- Active Neon Speaker & Soundwaves -->
+  <g filter="url(#audioGlow)" stroke-linecap="round">
+    <!-- Speaker Body -->
+    <path d="M 125 200 L 165 200 L 225 150 L 225 350 L 165 300 L 125 300 Z" 
+          fill="url(#neonAudio)" 
+          stroke="url(#neonAudio)" 
+          stroke-width="16" 
+          stroke-linejoin="round"/>
+
+    <!-- Inner Sound Arc -->
+    <path d="M 280 195 A 75 75 0 0 1 280 305" 
+          fill="none" 
+          stroke="url(#neonAudio)" 
+          stroke-width="22"/>
+
+    <!-- Outer Sound Arc -->
+    <path d="M 335 150 A 145 145 0 0 1 335 350" 
+          fill="none" 
+          stroke="url(#neonAudio)" 
+          stroke-width="22"/>
+
+    <!-- Center Emitter Hotspot -->
+    <circle cx="160" cy="250" r="8" fill="url(#audioPulseDot)"/>
+    <circle cx="160" cy="250" r="3" fill="#ffffff"/>
+  </g>
+
+  <!-- Specular Core Highlights for Glass/Neon Tube Finish -->
+  <g opacity="0.65" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Inner Arc Core -->
+    <path d="M 280 200 A 70 70 0 0 1 280 300" fill="none" stroke-width="4"/>
+    <!-- Outer Arc Core -->
+    <path d="M 335 155 A 140 140 0 0 1 335 345" fill="none" stroke-width="4"/>
+    <!-- Cone Edge Highlight -->
+    <path d="M 170 210 L 217 170 L 217 330 L 170 290" fill="none" stroke-width="3"/>
+  </g>
+</svg>

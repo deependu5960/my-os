@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="65%" r="60%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Signal Arc Gradient -->
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Core Dot Gradient -->
+    <radialGradient id="dotPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="60%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </radialGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur1"/>
+      <feGaussianBlur stdDeviation="25" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="500" height="500" rx="90" fill="url(#bgGlow)"/>
+
+  <!-- Subtle Framing Ring -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#neonCyan)" stroke-opacity="0.15" stroke-dasharray="8 16" stroke-width="2"/>
+
+  <g filter="url(#glow)" stroke-linecap="round">
+    <!-- Outer Arc -->
+    <path d="M 105 160 A 190 190 0 0 1 395 160" 
+          fill="none" 
+          stroke="url(#neonCyan)" 
+          stroke-width="24"/>
+
+    <!-- Middle Arc -->
+    <path d="M 155 220 A 130 130 0 0 1 345 220" 
+          fill="none" 
+          stroke="url(#neonCyan)" 
+          stroke-width="24"/>
+
+    <!-- Inner Arc -->
+    <path d="M 205 280 A 70 70 0 0 1 295 280" 
+          fill="none" 
+          stroke="url(#neonCyan)" 
+          stroke-width="24"/>
+
+    <!-- Center Pulse Dot -->
+    <circle cx="250" cy="355" r="18" fill="url(#dotPulse)"/>
+  </g>
+
+  <!-- Center Hotspot for High-Tech Finish -->
+  <circle cx="250" cy="355" r="7" fill="#ffffff" opacity="0.9"/>
+</svg>

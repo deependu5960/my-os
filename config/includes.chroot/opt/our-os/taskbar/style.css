@@ -1,0 +1,135 @@
+/* OUR OS Taskbar — visual language.
+   Deep graphite base, soft aurora accent, Apple-inspired radii. */
+
+#our-os-taskbar {
+    background-color: rgba(18, 20, 28, 0.82);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.taskbar-root {
+    padding: 4px 10px;
+}
+
+.zone-left, .zone-center, .zone-right {
+    padding: 0 4px;
+}
+
+/* ---- Launcher ---- */
+.launcher-button {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 4px 8px;
+    border: none;
+    transition: background-color 150ms ease;
+}
+.launcher-button:hover {
+    background-color: rgba(120, 170, 255, 0.22);
+}
+
+/* ---- App buttons ---- */
+.app-button {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 4px 12px;
+    border: none;
+    color: #e8ecf5;
+    transition: background-color 150ms ease;
+}
+.app-button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.app-button:active {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+.app-button label {
+    font-size: 11px;
+    font-weight: 500;
+}
+.running-dot {
+    background-color: transparent;
+    border-radius: 3px;
+}
+.running-dot.running {
+    background-color: #7fb1ff;
+    box-shadow: 0 0 6px #7fb1ff;
+}
+
+/* ---- Status area ---- */
+.status-icon { color: #e8ecf5; }
+.clock {
+    color: #e8ecf5;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0 6px;
+}
+
+/* ---- Control Center ---- */
+#our-control-center {
+    background-color: rgba(22, 24, 34, 0.95);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+}
+.cc-root { padding: 6px; }
+.cc-title {
+    color: #e8ecf5;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.cc-tile {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #e8ecf5;
+    transition: background-color 150ms ease;
+}
+.cc-tile:hover {
+    background-color: rgba(127, 177, 255, 0.18);
+}
+.cc-tile-state {
+    font-size: 12px;
+    font-weight: 700;
+    color: #7fb1ff;
+}
+.cc-tile-name {
+    font-size: 11px;
+    color: #c8cede;
+}
+.cc-slider {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 8px 10px;
+}
+.cc-slider-name {
+    font-size: 11px;
+    color: #c8cede;
+}
+.cc-footer { color: #a7b0c5; font-size: 12px; }
+.cc-settings {
+    background-color: rgba(127, 177, 255, 0.22);
+    border-radius: 10px;
+    border: none;
+    color: #eaf1ff;
+    padding: 4px 12px;
+}
+
+/* GTK Scale theming — flat and rounded */
+scale trough {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    min-height: 8px;
+}
+scale highlight {
+    background-color: #7fb1ff;
+    border-radius: 6px;
+    min-height: 8px;
+}
+scale slider {
+    background-color: #ffffff;
+    border-radius: 50%;
+    min-width: 14px;
+    min-height: 14px;
+    margin: -4px 0;
+}

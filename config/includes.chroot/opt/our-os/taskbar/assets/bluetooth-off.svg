@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="btBgGlow" cx="50%" cy="60%" r="60%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Signal Gradient (Dimmed/Offline) -->
+    <linearGradient id="neonCyanDim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#7000ff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ff007b" stop-opacity="0.3"/>
+    </linearGradient>
+
+    <!-- Vibrant Strike Gradient -->
+    <linearGradient id="strikeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0055"/>
+      <stop offset="50%" stop-color="#ff3366"/>
+      <stop offset="100%" stop-color="#ff9900"/>
+    </linearGradient>
+
+    <!-- Strike Cutout Mask -->
+    <mask id="strikeCutout">
+      <rect width="500" height="500" fill="#ffffff" />
+      <line x1="120" y1="390" x2="380" y2="110" stroke="#000000" stroke-width="46" stroke-linecap="round" />
+    </mask>
+
+    <!-- Subtle Glow for Dimmed Icon -->
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- High-Intensity Strike Glow -->
+    <filter id="strikeGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur1"/>
+      <feGaussianBlur stdDeviation="22" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="500" height="500" rx="90" fill="url(#btBgGlow)"/>
+
+  <!-- Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#neonCyanDim)" stroke-opacity="0.2" stroke-dasharray="8 16" stroke-width="2"/>
+
+  <!-- Bluetooth Rune (Masked with Slash Cutout) -->
+  <g mask="url(#strikeCutout)" filter="url(#softGlow)">
+    <!-- Central Spine -->
+    <line x1="250" y1="100" x2="250" y2="400" 
+          stroke="url(#neonCyanDim)" 
+          stroke-width="24" 
+          stroke-linecap="round"/>
+
+    <!-- Angular Rune Arms -->
+    <path d="M 160 170 L 335 315 L 250 385 L 250 115 L 335 185 L 160 330" 
+          fill="none" 
+          stroke="url(#neonCyanDim)" 
+          stroke-width="24" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+  </g>
+
+  <!-- Neon "Off" Diagonal Strike -->
+  <g filter="url(#strikeGlow)">
+    <!-- Colored Glow Stroke -->
+    <line x1="120" y1="390" x2="380" y2="110" 
+          stroke="url(#strikeGrad)" 
+          stroke-width="22" 
+          stroke-linecap="round"/>
+    
+    <!-- White Core Filament -->
+    <line x1="120" y1="390" x2="380" y2="110" 
+          stroke="#ffffff" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          opacity="0.9"/>
+  </g>
+</svg>

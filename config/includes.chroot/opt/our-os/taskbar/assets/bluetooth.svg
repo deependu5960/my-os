@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Dark Background Glow -->
+    <radialGradient id="bgGlow" cx="50%" cy="60%" r="65%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Vibrant Bluetooth Cyan-Magenta Gradient -->
+    <linearGradient id="neonBluetooth" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="45%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Outer Ring Gradient Accent -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Multi-Layer Neon Glow Filter -->
+    <filter id="neonGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Hotspot Dot Pulse Gradient -->
+    <radialGradient id="centerDotGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#7000ff"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="90" fill="url(#bgGlow)"/>
+
+  <!-- Concentric Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#ringGrad)" stroke-opacity="0.25" stroke-dasharray="10 18" stroke-width="2"/>
+  <circle cx="250" cy="250" r="160" fill="none" stroke="#00f0ff" stroke-opacity="0.08" stroke-width="1.5"/>
+
+  <!-- Active Glowing Bluetooth Rune -->
+  <g filter="url(#neonGlow)">
+    <!-- Central Spine -->
+    <line x1="250" y1="100" x2="250" y2="400" 
+          stroke="url(#neonBluetooth)" 
+          stroke-width="24" 
+          stroke-linecap="round"/>
+
+    <!-- Geometric Rune Wings -->
+    <path d="M 160 170 L 335 315 L 250 385 L 250 115 L 335 185 L 160 330" 
+          fill="none" 
+          stroke="url(#neonBluetooth)" 
+          stroke-width="24" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+
+    <!-- High-Tech Central Junction Hotspot -->
+    <circle cx="250" cy="250" r="10" fill="url(#centerDotGrad)"/>
+    <circle cx="250" cy="250" r="4" fill="#ffffff"/>
+  </g>
+
+  <!-- Specular Core Highlights for Glass/Neon Tube Finish -->
+  <g opacity="0.65" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="250" y1="115" x2="250" y2="385" stroke-width="4"/>
+    <path d="M 168 177 L 327 309 L 250 373 L 250 127 L 327 191 L 168 323" 
+          fill="none" 
+          stroke-width="4"/>
+  </g>
+</svg>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Dark Background Glow -->
+    <radialGradient id="brightBgGlow" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#14192d"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+
+    <!-- Neon Sun / Brightness Gradient -->
+    <linearGradient id="neonBright" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Outer Ring Gradient Accent -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </linearGradient>
+
+    <!-- Central Solar Hotspot Gradient -->
+    <radialGradient id="sunCoreGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#00f0ff"/>
+      <stop offset="75%" stop-color="#7000ff"/>
+      <stop offset="100%" stop-color="#ff007b"/>
+    </radialGradient>
+
+    <!-- Multi-Layer Neon Glow Filter -->
+    <filter id="brightGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="90" fill="url(#brightBgGlow)"/>
+
+  <!-- Framing Rings -->
+  <circle cx="250" cy="250" r="215" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <circle cx="250" cy="250" r="215" fill="none" stroke="url(#ringGrad)" stroke-opacity="0.25" stroke-dasharray="10 18" stroke-width="2"/>
+  <circle cx="250" cy="250" r="160" fill="none" stroke="#00f0ff" stroke-opacity="0.08" stroke-width="1.5"/>
+
+  <!-- Glowing Sun Core & Radiant Beams -->
+  <g filter="url(#brightGlow)" stroke-linecap="round">
+    <!-- Center Orb -->
+    <circle cx="250" cy="250" r="58" fill="url(#sunCoreGrad)"/>
+
+    <!-- Cardinal Rays -->
+    <line x1="250" y1="120" x2="250" y2="155" stroke="url(#neonBright)" stroke-width="20"/>
+    <line x1="250" y1="345" x2="250" y2="380" stroke="url(#neonBright)" stroke-width="20"/>
+    <line x1="120" y1="250" x2="155" y2="250" stroke="url(#neonBright)" stroke-width="20"/>
+    <line x1="345" y1="250" x2="380" y2="250" stroke="url(#neonBright)" stroke-width="20"/>
+
+    <!-- Diagonal Rays -->
+    <line x1="158" y1="158" x2="183" y2="183" stroke="url(#neonBright)" stroke-width="20"/>
+    <line x1="317" y1="317" x2="342" y2="342" stroke="url(#neonBright)" stroke-width="20"/>
+    <line x1="342" y1="158" x2="317" y2="183" stroke="url(#neonBright)" stroke-width="20"/>
+    <line x1="183" y1="317" x2="158" y2="342" stroke="url(#neonBright)" stroke-width="20"/>
+  </g>
+
+  <!-- Specular Core Highlights for Glass/Neon Tube Finish -->
+  <g opacity="0.75" stroke="#ffffff" stroke-linecap="round">
+    <!-- Center Bright Spot -->
+    <circle cx="250" cy="250" r="18" fill="#ffffff" stroke="none" opacity="0.9"/>
+
+    <!-- Ray Inner Core Highlights -->
+    <line x1="250" y1="125" x2="250" y2="150" stroke-width="4"/>
+    <line x1="250" y1="350" x2="250" y2="375" stroke-width="4"/>
+    <line x1="125" y1="250" x2="150" y2="250" stroke-width="4"/>
+    <line x1="350" y1="250" x2="375" y2="250" stroke-width="4"/>
+
+    <line x1="162" y1="162" x2="179" y2="179" stroke-width="4"/>
+    <line x1="321" y1="321" x2="338" y2="338" stroke-width="4"/>
+    <line x1="338" y1="162" x2="321" y2="179" stroke-width="4"/>
+    <line x1="179" y1="321" x2="162" y2="338" stroke-width="4"/>
+  </g>
+</svg>
